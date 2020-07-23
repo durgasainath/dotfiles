@@ -1,0 +1,10 @@
+# Local
+local/
+packages/Brewfile.lock.json
+
+# MacOS
+.DS_Store
+
+# VisualStudioCode
+.vscode
+*.code-workspace

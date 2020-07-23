@@ -1,0 +1,18 @@
+[alias]
+	aa = add --all :/
+	d = diff
+	ds = diff --staged
+	dno = diff --name-only
+	dnos = diff --name-only --staged
+	l = log --all --graph --oneline --decorate -n 20
+	la = log --all --graph --oneline --decorate
+	st = status
+	whoami = config user.email
+[core]
+	pager = cat
+[pull]
+	ff = only
+[push]
+	default = upstream
+[include]
+	path = ~/dotfiles/local/.gitconfig_local
