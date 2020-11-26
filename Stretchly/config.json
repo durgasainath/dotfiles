@@ -213,5 +213,10 @@
             "data": "Take a moment to smile at being alive.",
             "enabled": true
         }
-    ]
+    ],
+    "transparentMode": false,
+    "opacity": 0.9,
+    "breakWindowWidth": 0.85,
+    "breakWindowHeight": 0.85,
+    "checkNewVersion": true
 }

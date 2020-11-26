@@ -1,9 +1,9 @@
 [alias]
 	aa = add --all :/
 	d = diff
-	ds = diff --staged
 	dno = diff --name-only
-	dnos = diff --name-only --staged
+	ds = diff --staged
+	dsno = diff --name-only --staged
 	l = log --all --graph --oneline --decorate -n 20
 	la = log --all --graph --oneline --decorate
 	st = status

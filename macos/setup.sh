@@ -22,10 +22,10 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName "md-mbp"
-sudo scutil --set HostName "md-mbp"
-sudo scutil --set LocalHostName "md-mbp"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "md-mbp"
+# sudo scutil --set ComputerName "md-mbp"
+# sudo scutil --set HostName "md-mbp"
+# sudo scutil --set LocalHostName "md-mbp"
+# sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "md-mbp"
 
 # Set language and text formats
 defaults write NSGlobalDomain AppleLanguages -array "en-IN"
@@ -38,9 +38,9 @@ defaults write NSGlobalDomain AppleTemperatureUnit -string "Celsius"
 sudo systemsetup -settimezone "Europe/London" > /dev/null
 
 # Trackpad: enable tap to click for this user and for the login screen
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
@@ -97,7 +97,7 @@ defaults write com.apple.dock tilesize -int 36
 defaults write com.apple.dock orientation -string "bottom"
 
 # Automatically hide and show the Dock
-defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide -bool false
 
 # Remove the auto-hiding Dock delay
 defaults write com.apple.dock autohide-delay -float 0
