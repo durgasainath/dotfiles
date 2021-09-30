@@ -1,10 +1,5 @@
 local hyper = {"cmd", "alt", "ctrl","shift"}
 
--- Customize alert message
-hs.alert.defaultStyle.strokeColor =  {white = 1, alpha = 0}
-hs.alert.defaultStyle.textSize =  17
-hs.alert.defaultStyle.radius =  10
-
 -- Config change and reload
 function reloadConfig(files)
   doReload = false
@@ -49,6 +44,15 @@ spoon.MiroWindowsManager:bindHotkeys({
   fullscreen = {hyper, "f"}
 })
 
+-- MoveToScreen
+function moveToNextScreen()
+  local app = hs.window.focusedWindow()
+  app:moveToScreen(app:screen():next())
+  app:maximize()
+end
+
+hs.hotkey.bind(hyper, 'N', moveToNextScreen)
+
 -- Toggle Apps
 function toggleApp(name, alias)
   focused = hs.window.focusedWindow()
@@ -64,8 +68,9 @@ function toggleApp(name, alias)
 end
 
 hs.hotkey.bind(hyper, 'G', function() toggleApp('Google Chrome') end)
-hs.hotkey.bind(hyper, 'T', function() toggleApp('iTerm', 'iTerm2') end)
-hs.hotkey.bind(hyper, 'S', function() toggleApp('Sublime Text') end)
+hs.hotkey.bind(hyper, 'I', function() toggleApp('iTerm', 'iTerm2') end)
+hs.hotkey.bind(hyper, 'T', function() toggleApp('Sublime Text') end)
 hs.hotkey.bind(hyper, 'C', function() toggleApp('Visual Studio Code','Code') end)
+hs.hotkey.bind(hyper, 'X', function() toggleApp('Firefox') end)
 
 -- END

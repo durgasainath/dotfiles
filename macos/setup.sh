@@ -178,7 +178,7 @@ sudo chflags nohidden /Volumes
 # `General`, `More Info`, `Open with`, and `Sharing & Permissions`
 defaults write com.apple.finder FXInfoPanesExpanded -dict \
 	General -bool true \
-    MetaData -bool true \
+	MetaData -bool true \
 	OpenWith -bool true \
 	Privileges -bool true
 
