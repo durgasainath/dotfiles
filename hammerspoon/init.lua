@@ -169,25 +169,26 @@ hyper:bind(
     end
 )
 
--- Window sizing and movement
-function resizeWindow(x, y, w, h)
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    f.x = max.x + (max.w * x)
-    f.y = max.y + (max.h * y)
-    f.w = max.w * w
-    f.h = max.h * h
-    win:setFrame(f)
-end
+
+-- Toggle Window Units
+hyper_h = false
+hyper_j = false
+hyper_k = false
+hyper_l = false
+hyper_f = false
 
 -- Full Screen
 hyper:bind(
     {},
     "F",
     function()
-        resizeWindow(0, 0, 1, 1)
+        if hyper_f == false then
+            hs.window.focusedWindow():moveToUnit({0.05, 0.05, 0.9, 0.9})
+            hyper_f = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_f = false
+        end
     end
 )
 
@@ -196,7 +197,13 @@ hyper:bind(
     {},
     "H",
     function()
-        resizeWindow(0, 0, 0.5, 1)
+        if hyper_h == false then
+            hs.window.focusedWindow():moveToUnit({0, 0, 0.5, 1})
+            hyper_h = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_h = false
+        end
     end
 )
 
@@ -205,7 +212,13 @@ hyper:bind(
     {},
     "J",
     function()
-        resizeWindow(0, 0.5, 1, 0.5)
+        if hyper_j == false then
+            hs.window.focusedWindow():moveToUnit({0, 0.5, 1, 0.5})
+            hyper_j = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_j = false
+        end
     end
 )
 
@@ -214,7 +227,13 @@ hyper:bind(
     {},
     "K",
     function()
-        resizeWindow(0, 0, 1, 0.5)
+        if hyper_k == false then
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 0.5})
+            hyper_k = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_k = false
+        end
     end
 )
 
@@ -223,7 +242,13 @@ hyper:bind(
     {},
     "L",
     function()
-        resizeWindow(0.5, 0, 0.5, 1)
+        if hyper_l == false then
+            hs.window.focusedWindow():moveToUnit({0.5, 0, 0.5, 1})
+            hyper_l = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_l = false
+        end
     end
 )
 
