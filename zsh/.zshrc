@@ -23,6 +23,6 @@ alias pip=pip3
 alias g=git
 alias dk=docker
 
-if [ -f ~/dotfiles/local/.zshrc_local ]; then
-    source ~/dotfiles/local/.zshrc_local
+if [ -f ~/dotfiles/_local/.zshrc_local ]; then
+    source ~/dotfiles/_local/.zshrc_local
 fi
