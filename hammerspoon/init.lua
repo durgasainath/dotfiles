@@ -2,6 +2,8 @@
 -- A global variable for the Hyper Mode
 local hyper = hs.hotkey.modal.new({}, "F17")
 
+hs.window.animationDuration = 0
+
 -- Enter Hyper Mode when F18 (Hyper/Capslock) is pressed
 function enterHyperMode()
     hyper.triggered = false
@@ -50,132 +52,6 @@ hyper:bind(
     "V",
     function()
         hs.eventtap.keyStrokes(hs.pasteboard.getContents())
-    end
-)
-
--- Toggle Window Units
-hyper_h = false
-hyper_j = false
-hyper_k = false
-hyper_l = false
-hyper_f = false
-hs.window.animationDuration = 0
-
--- Left
-hyper:bind(
-    {},
-    "H",
-    function()
-        if hyper_h == false then
-            hs.window.focusedWindow():moveToUnit({0, 0, 0.5, 1})
-            hyper_h = true
-        else
-            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
-            hyper_h = false
-        end
-    end
-)
-
--- Down
-hyper:bind(
-    {},
-    "J",
-    function()
-        if hyper_j == false then
-            hs.window.focusedWindow():moveToUnit({0, 0.5, 1, 0.5})
-            hyper_j = true
-        else
-            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
-            hyper_j = false
-        end
-    end
-)
-
--- Up
-hyper:bind(
-    {},
-    "K",
-    function()
-        if hyper_k == false then
-            hs.window.focusedWindow():moveToUnit({0, 0, 1, 0.5})
-            hyper_k = true
-        else
-            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
-            hyper_k = false
-        end
-    end
-)
-
--- Right
-hyper:bind(
-    {},
-    "L",
-    function()
-        if hyper_l == false then
-            hs.window.focusedWindow():moveToUnit({0.5, 0, 0.5, 1})
-            hyper_l = true
-        else
-            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
-            hyper_l = false
-        end
-    end
-)
-
--- Fullscreen
-hyper:bind(
-    {},
-    "F",
-    function()
-        if hyper_f == false then
-            hs.window.focusedWindow():moveToUnit({0.05, 0.05, 0.9, 0.9})
-            hyper_f = true
-        else
-            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
-            hyper_f = false
-        end
-    end
-)
-
--- Toggle Mouse to Screen Center
-hyper:bind(
-    {},
-    "M",
-    function()
-        -- local focused = hs.window.focusedWindow()
-        -- focused:minimize()
-        local screen = hs.mouse.getCurrentScreen()
-        local nextScreen = screen:previous()
-        local rect = nextScreen:fullFrame()
-        local center = hs.geometry.rectMidPoint(rect)
-        hs.mouse.absolutePosition(center)
-    end
-)
-
--- Toggle Window Screens
-MACBOOK_MONITOR = "Built%-in Retina Display"
-
-function moveToNextScreen(name, pos)
-    local focused = hs.window.focusedWindow()
-    if name then
-        focused:moveToScreen(name)
-        if pos == "UP" then
-            focused:moveToUnit({0, 0, 1, 0.5})()
-        elseif pos == "DOWN" then
-            focused:moveToUnit({0, 0.5, 1, 0.5})()
-        else
-            focused:maximize()
-        end
-    else
-        focused:moveToScreen(focused:screen():next())
-        focused:maximize()
-    end
-end
-
-hyper:bind(
-    {},
-    "N",
-    function()
-        moveToNextScreen()
     end
 )
 
@@ -247,6 +123,107 @@ hyper:bind(
     "W",
     function()
         toggleApp("WhatsApp")
+    end
+)
+
+-- Toggle Mouse to Screen Center
+hyper:bind(
+    {},
+    "M",
+    function()
+        -- local focused = hs.window.focusedWindow()
+        -- focused:minimize()
+        local screen = hs.mouse.getCurrentScreen()
+        local nextScreen = screen:previous()
+        local rect = nextScreen:fullFrame()
+        local center = hs.geometry.rectMidPoint(rect)
+        hs.mouse.absolutePosition(center)
+    end
+)
+
+-- Toggle Window Screens
+MACBOOK_MONITOR = "Built%-in Retina Display"
+
+function moveToNextScreen(name, pos)
+    local focused = hs.window.focusedWindow()
+    if name then
+        focused:moveToScreen(name)
+        if pos == "UP" then
+            focused:moveToUnit({0, 0, 1, 0.5})()
+        elseif pos == "DOWN" then
+            focused:moveToUnit({0, 0.5, 1, 0.5})()
+        else
+            focused:maximize()
+        end
+    else
+        focused:moveToScreen(focused:screen():next())
+        focused:maximize()
+    end
+end
+
+hyper:bind(
+    {},
+    "N",
+    function()
+        moveToNextScreen()
+    end
+)
+
+-- Window sizing and movement
+function resizeWindow(x, y, w, h)
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    f.x = max.x + (max.w * x)
+    f.y = max.y + (max.h * y)
+    f.w = max.w * w
+    f.h = max.h * h
+    win:setFrame(f)
+end
+
+-- Full Screen
+hyper:bind(
+    {},
+    "F",
+    function()
+        resizeWindow(0, 0, 1, 1)
+    end
+)
+
+-- Left
+hyper:bind(
+    {},
+    "H",
+    function()
+        resizeWindow(0, 0, 0.5, 1)
+    end
+)
+
+-- Bottom
+hyper:bind(
+    {},
+    "J",
+    function()
+        resizeWindow(0, 0.5, 1, 0.5)
+    end
+)
+
+-- Top
+hyper:bind(
+    {},
+    "K",
+    function()
+        resizeWindow(0, 0, 1, 0.5)
+    end
+)
+
+-- Right
+hyper:bind(
+    {},
+    "L",
+    function()
+        resizeWindow(0.5, 0, 0.5, 1)
     end
 )
 
