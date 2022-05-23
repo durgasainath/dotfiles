@@ -1,71 +1,255 @@
-local hyper = {"cmd", "alt", "ctrl","shift"}
+-- local hyper = {"cmd", "alt", "ctrl","shift"}
+-- A global variable for the Hyper Mode
+local hyper = hs.hotkey.modal.new({}, "F17")
 
--- Customize alert message
-hs.alert.defaultStyle.strokeColor =  {white = 1, alpha = 0}
-hs.alert.defaultStyle.textSize =  17
-hs.alert.defaultStyle.radius =  10
+hs.window.animationDuration = 0
+
+-- Enter Hyper Mode when F18 (Hyper/Capslock) is pressed
+function enterHyperMode()
+    hyper.triggered = false
+    hyper:enter()
+end
+
+-- Leave Hyper Mode when F18 (Hyper/Capslock) is pressed,
+-- send ESCAPE if no other keys are pressed.
+function exitHyperMode()
+    hyper:exit()
+    if not hyper.triggered then
+        hs.eventtap.keyStroke({}, "ESCAPE")
+    end
+end
+
+-- Bind the Hyper key
+f18 = hs.hotkey.bind({}, "F18", enterHyperMode, exitHyperMode)
 
 -- Config change and reload
 function reloadConfig(files)
-  doReload = false
-  for _,file in pairs(files) do
-    if file:sub(-4) == ".lua" then
-      doReload = true
+    doReload = false
+    for _, file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            doReload = true
+        end
     end
-  end
-  if doReload then
-    hs.reload()
-  end
+    if doReload then
+        hs.reload()
+    end
 end
 
 myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-hs.notify.new({title="Hammerspoon", informativeText="Hammerspoon Config Reloaded", withdrawAfter=2}):send()
+hs.notify.new({title = "Hammerspoon", informativeText = "Hammerspoon Config Reloaded", withdrawAfter = 2}):send()
 
-hs.hotkey.bind(hyper, "R", function()
-hs.reload()
-end)
+hyper:bind(
+    {},
+    "R",
+    function()
+        hs.reload()
+    end
+)
 
 -- Defeating paste blocking
-hs.hotkey.bind(hyper, "V", function()
-hs.eventtap.keyStrokes(hs.pasteboard.getContents())
-end)
-
--- FnMate
-hs.loadSpoon("FnMate")
-
--- MicMute
-hs.loadSpoon("MicMute")
-spoon.MicMute:bindHotkeys({toggle = {hyper, "M"}})
-
--- MiroWindowsManager
-hs.loadSpoon("MiroWindowsManager")
-hs.window.animationDuration = 0
-spoon.MiroWindowsManager.fullScreenSizes = {1, 10/9}
-spoon.MiroWindowsManager:bindHotkeys({
-  left = {hyper, "h"},
-  down = {hyper, "j"},
-  up = {hyper, "k"},
-  right = {hyper, "l"},
-  fullscreen = {hyper, "f"}
-})
+hyper:bind(
+    {},
+    "V",
+    function()
+        hs.eventtap.keyStrokes(hs.pasteboard.getContents())
+    end
+)
 
 -- Toggle Apps
 function toggleApp(name, alias)
-  focused = hs.window.focusedWindow()
-  if focused then
-    app = focused:application()
-    -- hs.alert.show(app:title())
-    if app:title() == name or app:title() == alias then
-      app:hide()
-      return
+    focused = hs.window.focusedWindow()
+    if focused then
+        app = focused:application()
+        -- hs.alert.show(app:title())
+        if app:title() == name or app:title() == alias then
+            app:hide()
+            return
+        end
     end
-  end
-  hs.application.launchOrFocus(name)
+    hs.application.launchOrFocus(name)
 end
 
-hs.hotkey.bind(hyper, 'G', function() toggleApp('Google Chrome') end)
-hs.hotkey.bind(hyper, 'T', function() toggleApp('iTerm', 'iTerm2') end)
-hs.hotkey.bind(hyper, 'S', function() toggleApp('Sublime Text') end)
-hs.hotkey.bind(hyper, 'C', function() toggleApp('Visual Studio Code','Code') end)
+hyper:bind(
+    {},
+    "D",
+    function()
+        toggleApp("Finder")
+    end
+)
+hyper:bind(
+    {},
+    "G",
+    function()
+        toggleApp("Google Chrome")
+    end
+)
+hyper:bind(
+    {},
+    "I",
+    function()
+        toggleApp("iTerm", "iTerm2")
+    end
+)
+hyper:bind(
+    {},
+    "T",
+    function()
+        toggleApp("Sublime Text")
+    end
+)
+hyper:bind(
+    {},
+    "C",
+    function()
+        toggleApp("Visual Studio Code", "Code")
+    end
+)
+hyper:bind(
+    {},
+    "X",
+    function()
+        toggleApp("Firefox")
+    end
+)
+hyper:bind(
+    {},
+    "S",
+    function()
+        toggleApp("Slack")
+    end
+)
+hyper:bind(
+    {},
+    "W",
+    function()
+        toggleApp("WhatsApp")
+    end
+)
+
+-- Toggle Mouse to Screen Center
+hyper:bind(
+    {},
+    "M",
+    function()
+        -- local focused = hs.window.focusedWindow()
+        -- focused:minimize()
+        local screen = hs.mouse.getCurrentScreen()
+        local nextScreen = screen:previous()
+        local rect = nextScreen:fullFrame()
+        local center = hs.geometry.rectMidPoint(rect)
+        hs.mouse.absolutePosition(center)
+    end
+)
+
+-- Toggle Window Screens
+MACBOOK_MONITOR = "Built%-in Retina Display"
+
+function moveToNextScreen(name, pos)
+    local focused = hs.window.focusedWindow()
+    if name then
+        focused:moveToScreen(name)
+        if pos == "UP" then
+            focused:moveToUnit({0, 0, 1, 0.5})()
+        elseif pos == "DOWN" then
+            focused:moveToUnit({0, 0.5, 1, 0.5})()
+        else
+            focused:maximize()
+        end
+    else
+        focused:moveToScreen(focused:screen():next())
+        focused:maximize()
+    end
+end
+
+hyper:bind(
+    {},
+    "N",
+    function()
+        moveToNextScreen()
+    end
+)
+
+
+-- Toggle Window Units
+hyper_h = false
+hyper_j = false
+hyper_k = false
+hyper_l = false
+hyper_f = false
+
+-- Full Screen
+hyper:bind(
+    {},
+    "F",
+    function()
+        if hyper_f == false then
+            hs.window.focusedWindow():moveToUnit({0.05, 0.05, 0.9, 0.9})
+            hyper_f = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_f = false
+        end
+    end
+)
+
+-- Left
+hyper:bind(
+    {},
+    "H",
+    function()
+        if hyper_h == false then
+            hs.window.focusedWindow():moveToUnit({0, 0, 0.5, 1})
+            hyper_h = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_h = false
+        end
+    end
+)
+
+-- Bottom
+hyper:bind(
+    {},
+    "J",
+    function()
+        if hyper_j == false then
+            hs.window.focusedWindow():moveToUnit({0, 0.5, 1, 0.5})
+            hyper_j = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_j = false
+        end
+    end
+)
+
+-- Top
+hyper:bind(
+    {},
+    "K",
+    function()
+        if hyper_k == false then
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 0.5})
+            hyper_k = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_k = false
+        end
+    end
+)
+
+-- Right
+hyper:bind(
+    {},
+    "L",
+    function()
+        if hyper_l == false then
+            hs.window.focusedWindow():moveToUnit({0.5, 0, 0.5, 1})
+            hyper_l = true
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
+            hyper_l = false
+        end
+    end
+)
 
 -- END
