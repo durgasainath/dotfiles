@@ -3,6 +3,7 @@
 local hyper = hs.hotkey.modal.new({}, "F17")
 
 hs.window.animationDuration = 0
+hs.notify.new({title = "Hammerspoon", informativeText = "Hammerspoon Config Reloaded", withdrawAfter = 2}):send()
 
 -- Enter Hyper Mode when F18 (Hyper/Capslock) is pressed
 function enterHyperMode()
@@ -22,22 +23,16 @@ end
 -- Bind the Hyper key
 f18 = hs.hotkey.bind({}, "F18", enterHyperMode, exitHyperMode)
 
--- Config change and reload
-function reloadConfig(files)
-    doReload = false
-    for _, file in pairs(files) do
-        if file:sub(-4) == ".lua" then
-            doReload = true
-        end
+-- Toggle Capslock
+hyper:bind(
+    {},
+    "tab",
+    function()
+        hs.hid.capslock.toggle()
     end
-    if doReload then
-        hs.reload()
-    end
-end
+)
 
-myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-hs.notify.new({title = "Hammerspoon", informativeText = "Hammerspoon Config Reloaded", withdrawAfter = 2}):send()
-
+-- Reload Config
 hyper:bind(
     {},
     "R",
@@ -46,7 +41,7 @@ hyper:bind(
     end
 )
 
--- Defeating paste blocking
+-- Defeating Paste Blocking
 hyper:bind(
     {},
     "V",
@@ -169,7 +164,6 @@ hyper:bind(
     end
 )
 
-
 -- Toggle Window Units
 hyper_h = false
 hyper_j = false
@@ -182,12 +176,12 @@ hyper:bind(
     {},
     "F",
     function()
-        if hyper_f == false then
-            hs.window.focusedWindow():moveToUnit({0.05, 0.05, 0.9, 0.9})
-            hyper_f = true
-        else
+        if hyper_f then
             hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
             hyper_f = false
+        else
+            hs.window.focusedWindow():moveToUnit({0.05, 0.05, 0.9, 0.9})
+            hyper_f = true
         end
     end
 )
@@ -197,42 +191,42 @@ hyper:bind(
     {},
     "H",
     function()
-        if hyper_h == false then
-            hs.window.focusedWindow():moveToUnit({0, 0, 0.5, 1})
-            hyper_h = true
-        else
+        if hyper_h then
             hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
             hyper_h = false
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 0.5, 1})
+            hyper_h = true
         end
     end
 )
 
--- Bottom
+-- Down
 hyper:bind(
     {},
     "J",
     function()
-        if hyper_j == false then
-            hs.window.focusedWindow():moveToUnit({0, 0.5, 1, 0.5})
-            hyper_j = true
-        else
+        if hyper_j then
             hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
             hyper_j = false
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0.5, 1, 0.5})
+            hyper_j = true
         end
     end
 )
 
--- Top
+-- Up
 hyper:bind(
     {},
     "K",
     function()
-        if hyper_k == false then
-            hs.window.focusedWindow():moveToUnit({0, 0, 1, 0.5})
-            hyper_k = true
-        else
+        if hyper_k then
             hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
             hyper_k = false
+        else
+            hs.window.focusedWindow():moveToUnit({0, 0, 1, 0.5})
+            hyper_k = true
         end
     end
 )
@@ -242,12 +236,12 @@ hyper:bind(
     {},
     "L",
     function()
-        if hyper_l == false then
-            hs.window.focusedWindow():moveToUnit({0.5, 0, 0.5, 1})
-            hyper_l = true
-        else
+        if hyper_l then
             hs.window.focusedWindow():moveToUnit({0, 0, 1, 1})
             hyper_l = false
+        else
+            hs.window.focusedWindow():moveToUnit({0.5, 0, 0.5, 1})
+            hyper_l = true
         end
     end
 )
