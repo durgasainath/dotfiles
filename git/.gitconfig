@@ -27,5 +27,7 @@
 	ff = only
 [push]
 	default = upstream
+[init]
+	defaultBranch = main
 [include]
 	path = ~/dotfiles/_local/.gitconfig_local

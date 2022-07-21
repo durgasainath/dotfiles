@@ -15,9 +15,9 @@ end
 -- send ESCAPE if no other keys are pressed.
 function exitHyperMode()
     hyper:exit()
-    if not hyper.triggered then
-        hs.eventtap.keyStroke({}, "ESCAPE")
-    end
+    -- if not hyper.triggered then
+    --     hs.eventtap.keyStroke({}, "ESCAPE")
+    -- end
 end
 
 -- Bind the Hyper key
