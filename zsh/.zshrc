@@ -16,6 +16,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 alias python=python3
 alias pip=pip3
