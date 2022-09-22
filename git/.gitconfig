@@ -1,9 +1,8 @@
 [alias]
 	aa = add --all :/
 	br = branch
-	co = checkout
-	cob = checkout -b
 	cam = commit --amend --no-edit
+	cleanup = "!git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs -I{} git branch -D {}"
 	d = diff
 	dno = diff --name-only
 	ds = diff --staged
@@ -12,21 +11,22 @@
 	dw = diff -U0 --word-diff
 	l = log --all --graph --oneline --decorate -n 5
 	la = log --all --graph --oneline --decorate
+	main = checkout main
+	master = checkout master
+	p = pull
+	pushup = "!git push -u origin $(git branch --show-current)"
 	st = status
 	sw = switch
 	swc = switch -c
-	p = pull
-	pushup = "!git push -u origin $(git branch --show-current)"
-	cleanup = "!git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs -I{} git branch -D {}"
+	unstash = stash pop
 	whoami = config user.email
-	main = checkout main
-	master = checkout master
 [core]
 	pager = cat
 [pull]
 	ff = only
 [push]
-	default = upstream
+	default = current
+	autoSetupRemote = true
 [init]
 	defaultBranch = main
 [include]
