@@ -1,6 +1,6 @@
 -- local hyper = {"cmd", "alt", "ctrl","shift"}
 -- A global variable for the Hyper Mode
-local hyper = hs.hotkey.modal.new({}, "F17")
+hyper = hs.hotkey.modal.new({}, "F17")
 
 hs.window.animationDuration = 0
 hs.notify.new({title = "Hammerspoon", informativeText = "Hammerspoon Config Reloaded", withdrawAfter = 2}):send()
@@ -246,4 +246,5 @@ hyper:bind(
     end
 )
 
+require("local_config")
 -- END
