@@ -155,7 +155,7 @@ hyper:bind(
 
 hyper:bind(
     {},
-    "Q",
+    "B",
     function()
         toggleApp("Brave Browser")
     end
