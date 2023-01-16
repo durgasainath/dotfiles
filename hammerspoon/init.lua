@@ -153,6 +153,14 @@ hyper:bind(
     end
 )
 
+hyper:bind(
+    {},
+    "Q",
+    function()
+        toggleApp("Brave Browser")
+    end
+)
+
 -- Toggle Mouse to Screen Center
 hyper:bind(
     {},
