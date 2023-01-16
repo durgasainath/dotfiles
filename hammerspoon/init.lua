@@ -1,6 +1,6 @@
 -- local hyper = {"cmd", "alt", "ctrl","shift"}
 -- A global variable for the Hyper Mode
-hyper = hs.hotkey.modal.new({}, "F17")
+    hyper = hs.hotkey.modal.new({}, "F17")
 
 hs.window.animationDuration = 0
 hs.notify.new({title = "Hammerspoon", informativeText = "Hammerspoon Config Reloaded", withdrawAfter = 2}):send()
@@ -118,6 +118,38 @@ hyper:bind(
     "W",
     function()
         toggleApp("WhatsApp")
+    end
+)
+
+hyper:bind(
+    {},
+    "E",
+    function()
+        toggleApp("Enpass")
+    end
+)
+
+hyper:bind(
+    {},
+    "O",
+    function()
+        toggleApp("Microsoft OneNote")
+    end
+)
+
+hyper:bind(
+    {},
+    "Z",
+    function()
+        toggleApp("zoom.us")
+    end
+)
+
+hyper:bind(
+    {},
+    "Q",
+    function()
+        toggleApp("Safari")
     end
 )
 
@@ -246,5 +278,5 @@ hyper:bind(
     end
 )
 
-require("local_config")
+-- require("local_config")
 -- END
