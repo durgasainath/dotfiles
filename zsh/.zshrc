@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git-noalias)
+plugins=(thefuck terraform python colorize iterm2)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -23,6 +23,12 @@ alias pip=pip3
 
 alias g=git
 alias dk=docker
+alias ti='terraform init'
+alias tv='terraform validate'
+alias tp='terraform plan'
+alias tap='terraform apply --auto-approve'
+alias tf='terraform fmt --recursive'
+alias tha=fuck
 
 if [ -f ~/dotfiles/_local/.zshrc_local ]; then
     source ~/dotfiles/_local/.zshrc_local

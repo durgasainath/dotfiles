@@ -31,3 +31,10 @@
 	defaultBranch = main
 [include]
 	path = ~/dotfiles/_local/.gitconfig_local
+
+[user]
+    name = durgasainath
+    email = durgasainath@gmail.com
+
+[includeIf "gitdir:~/github/SRTA/"]
+    path = ~/github/SRTA/.gitconfig

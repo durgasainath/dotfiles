@@ -25,6 +25,11 @@ alias pip=pip3
 
 alias g=git
 alias dk=docker
+alias ti='terraform init'
+alias tv='terraform validate'
+alias tp='terraform plan'
+alias tap='terraform apply --auto-approve'
+alias tf='terraform fmt --recursive'
 
 if [ -f ~/dotfiles/local/.bashrc_local ]; then
     source ~/dotfiles/local/.bashrc_local
