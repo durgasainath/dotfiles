@@ -35,6 +35,3 @@
 [user]
     name = durgasainath
     email = durgasainath@gmail.com
-
-[includeIf "gitdir:~/github/SRTA/"]
-    path = ~/github/SRTA/.gitconfig
